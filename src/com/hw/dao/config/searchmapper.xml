@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hw.dao.mapper.SearchMapper">
+	
+	
+	
+	
+	
+	<select id="selectuser" parameterType="String" resultType="users">
+		SELECT * FROM USERS WHERE ID LIKE CONCAT('%',#{keyword},'%') OR NAME LIKE CONCAT('%',#{keyword},'%')
+	</select>
+	<select id="selectreview" parameterType="String" resultType="review">
+		SELECT * FROM REVIEW WHERE CAST(R_NO AS CHAR(11)) LIKE CONCAT('%',#{keyword},'%')
+	</select>
+	<select id="selectinterest" parameterType="String" resultType="interest">
+		SELECT * FROM INTEREST WHERE ID LIKE CONCAT('%',#{keyword},'%') 
+	</select>
+	<select id="selectactivity" parameterType="activity" resultType="activity">
+		SELECT ACT_NO, CAT_NO, TITLE, ADDR, ADDR_LAT, ADDR_LONG,
+		ACT_IMG1, ACT_IMG2, ACT_IMG3, ACT_IMG4, ACT_PHONE, DETAIL,
+		ID, DATE_FORMAT(ST_DATE,'%y-%m-%d') AS ST_DATE,DATE_FORMAT(END_DATE,'%y-%m-%d') AS END_DATE , QUANTITY, STATE, GEN_NO, 
+		( 6371 * acos( cos( radians( #{addr_lat} ) ) * cos( radians(ADDR_LAT) ) * cos( radians(ADDR_LONG) - radians(#{addr_long}) ) + sin( radians(#{addr_lat}) ) * sin( radians(ADDR_LAT) ) ) )  AS DISTANCE 
+		FROM ACTIVITY WHERE TITLE LIKE CONCAT('%',#{title},'%') AND CAT_NO=#{cat_no}
+		AND STR_TO_DATE(#{st_date},'%Y-%m-%d') <![CDATA[ <= ]]> ST_DATE 
+		AND END_DATE <![CDATA[ <= ]]> STR_TO_DATE(#{end_date},'%Y-%m-%d') 
+		ORDER BY DISTANCE
+	</select>
+	
+</mapper>
+
+
+
+
+
+

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hw.dao.mapper.ReviewMapper">
+			
+	<select id="select" parameterType="String" 
+	resultType="review">
+		SELECT * FROM REVIEW WHERE CAST(R_NO AS CHAR(11))=#{r_no}
+	</select>
+	<select id="selectall" resultType="review">
+		SELECT * FROM REVIEW
+	</select>
+	<insert id="insert" parameterType="review">
+		INSERT INTO REVIEW VALUES (null ,#{r_comment},#{grade},STR_TO_DATE(#{r_date},'%Y-%m-%d'),#{id},#{act_no})
+	</insert>
+	<update id="update" parameterType="review">
+		UPDATE REVIEW SET R_COMMENT=#{r_comment},GRADE=#{grade},R_DATE=STR_TO_DATE(#{r_date},'%Y-%m-%d'),ID=#{id},ACT_NO=#{act_no} WHERE R_NO=#{r_no}
+	</update>
+	<delete id="delete" parameterType="String">
+		DELETE FROM REVIEW WHERE CAST(R_NO AS CHAR(11))=#{r_no}
+	</delete>
+	
+</mapper>
+
+
+
+
+
+
